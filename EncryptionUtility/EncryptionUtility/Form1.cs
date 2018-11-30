@@ -8,6 +8,7 @@ namespace EncryptionUtility
     public partial class Form1 : Form
     {
         private short tag = 0;
+        private string originaFileName = string.Empty;
 
         public Form1()
         {
@@ -26,13 +27,54 @@ namespace EncryptionUtility
                 if (result == DialogResult.OK) // Test result.
                 {
                     string file = openFileDialog1.FileName;
+                    originaFileName = Path.GetFileName(openFileDialog1.FileName);                    
+
+                    CopyFile(file, Path.GetDirectoryName(file));
+                    Delete(file);
+
                     GenerateFile(Path.GetDirectoryName(file));
+
+                    RenameFile(Path.GetDirectoryName(file));
                 }
             }
             catch (Exception ex)
             {
                 label1.Text = ex.ToString();
             }
+        }
+
+        private void CopyFile(string file, string copyFile)
+        {
+            File.Copy(file, copyFile + @"\web.config", true);
+        }
+
+        private void Delete(string file)
+        {
+            File.Delete(file);
+        }
+
+        private void RenameFile(string file)
+        {            
+            File.Move(file + @"\web.config", file + @"\" + originaFileName);
+        }
+
+        private void RenameBackFile(string file)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void EncryptFile(string file)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+
+        
+
+        private void DeleteFile(string file)
+        {
+            
         }
 
         private void GenerateFile(string connectionStringPath)
